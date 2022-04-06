@@ -106,10 +106,10 @@ def on_click(n_clicks, data):
         data = api_pull()
     return data
 
-@app.callback([Output('movie-title', 'children'),
+@app.callback(Output('movie-title', 'children'),
                 #Output('movie-release', 'children'),
                 #Output('movie-overview', 'children'),
-                ],
+                ,
               [Input('tmdb-store', 'modified_timestamp')],
               [State('tmdb-store', 'data')])
 def on_data(ts, data):
