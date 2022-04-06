@@ -35,7 +35,7 @@ app.layout = html.Div(children=[
             html.Div([
                 html.Div('Get all crypto coins data'),
                 html.Button(id='eek-button', n_clicks=0, children='API call', style={'color': 'rgb(255, 255, 255)'}),
-                html.Div(id='movie-title', children=[]),
+                html.Div(id='movie-title', children=[], style={'color': 'rgb(205, 155, 115)'}),
 
             ], style={ 'padding': '12px',
                     'font-size': '22px',
@@ -118,6 +118,7 @@ def on_data(ts, data):
         #return data['title'], data['release_date'], data['overview']
         #print(data)
         df= pd.DataFrame.from_records(data)
+        df.drop(['roi'], axis=1, inplace=True)
         table = dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
         return table
 
