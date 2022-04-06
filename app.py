@@ -2,16 +2,17 @@ import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-from helpers.key_finder import api_key
-from helpers.api_call import *
+# from helpers.key_finder import api_key
+# from helpers.api_call import *
 
 
 ########### Define a few variables ######
 
-tabtitle = 'Movies'
-sourceurl = 'https://www.kaggle.com/tmdb/tmdb-movie-metadata'
-sourceurl2 = 'https://developers.themoviedb.org/3/getting-started/introduction'
-githublink = 'https://github.com/austinlasseter/tmdb-rf-classifier'
+tabtitle = 'Show me the Coin'
+sourceurl = 'http://api.coinlayer.com/api/live'
+#sourceurl = 'https://www.kaggle.com/tmdb/tmdb-movie-metadata'
+#sourceurl2 = 'https://developers.themoviedb.org/3/getting-started/introduction'
+githublink = 'https://github.com/dpulluri/405-movie-reviews-api'
 
 
 
@@ -27,7 +28,7 @@ app.layout = html.Div(children=[
     dcc.Store(id='tmdb-store', storage_type='session'),
     dcc.Store(id='summary-store', storage_type='session'),
     html.Div([
-        html.H1(['Movie Reviews']),
+        html.H1(['Show me the Coin']),
         html.Div([
             html.Div([
                 html.Div('Randomly select a movie summary'),
@@ -58,9 +59,8 @@ app.layout = html.Div(children=[
         html.Br(),
         html.A('Code on Github', href=githublink, target="_blank"),
         html.Br(),
-        html.A("Data Source: Kaggle", href=sourceurl, target="_blank"),
+        html.A("Data Source: coinlayer", href=sourceurl, target="_blank"),
         html.Br(),
-        html.A("Data Source: TMDB", href=sourceurl2, target="_blank"),
     ], className='twelve columns'),
 
 
@@ -80,7 +80,7 @@ def on_click(n_clicks, data):
     elif n_clicks==0:
         data = {'title':' ', 'release_date':' ', 'overview':' '}
     elif n_clicks>0:
-        data = api_pull(random.choice(ids_list))
+        data = api_pull()
     return data
 
 @app.callback([Output('movie-title', 'children'),
@@ -93,8 +93,17 @@ def on_data(ts, data):
     if ts is None:
         raise PreventUpdate
     else:
-        return data['title'], data['release_date'], data['overview']
+        #return data['title'], data['release_date'], data['overview']
+        return data['target'], data['rates']['BTC'], data['rates']['ETH']
 
+    
+def api_pull():
+    payload = {'access_key':'f994000dc1a1bc422a9d418df5cdb409', 'symbols':'BTC,ETH'}
+    response = requests.get(sourceurl, params=payload).json()
+    # json_file = json_normalize(response)
+    # dictionary = json.load(response)
+    return response
+    # return df[['title', 'overview', 'release_date']]
 
 ############ Deploy
 if __name__ == '__main__':
