@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, html
+from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import requests
@@ -10,11 +10,11 @@ import requests
 ########### Define a few variables ######
 
 tabtitle = 'Show me the Coin'
-sourceurl = 'http://api.coinlayer.com/api/live'
+sourceurl = 'https://api.coingecko.com/api/v3/coins/markets'
 #sourceurl = 'https://www.kaggle.com/tmdb/tmdb-movie-metadata'
 #sourceurl2 = 'https://developers.themoviedb.org/3/getting-started/introduction'
 githublink = 'https://github.com/dpulluri/405-movie-reviews-api'
-
+ids='bitcoin,ethereum,solana,cardano,tether,ripple,dogecoin,litecoin'
 
 
 ########### Initiate the app
@@ -32,17 +32,9 @@ app.layout = html.Div(children=[
         html.H1(['Show me the Coin']),
         html.Div([
             html.Div([
-                html.Div('Randomly select a movie summary'),
+                html.Div('Get all crypto coins data'),
                 html.Button(id='eek-button', n_clicks=0, children='API call', style={'color': 'rgb(255, 255, 255)'}),
-                html.Div([
-                    html.H3(['target price']),
-                    id='movie-title', children=[]]),
-                html.Div([
-                    html.H3(['BTC price']),
-                    id='movie-release', children=[]]),
-                html.Div([
-                    html.H3(['ETH price']),
-                    id='movie-overview', children=[]]),
+                html.Div(id='movie-title', children=[]),
 
             ], style={ 'padding': '12px',
                     'font-size': '22px',
@@ -70,8 +62,6 @@ app.layout = html.Div(children=[
         html.Br(),
     ], className='twelve columns'),
 
-
-
     ]
 )
 
@@ -85,19 +75,39 @@ def on_click(n_clicks, data):
     if n_clicks is None:
         raise PreventUpdate
     elif n_clicks==0:
-        data = {'success': True,
- 'terms': 'https://coinlayer.com/terms',
- 'privacy': 'https://coinlayer.com/privacy',
- 'timestamp': 1649199786,
- 'target': 'USD',
- 'rates': {'BTC': 46086.561278, 'ETH': 3441.073039}}
+        data = [{'id': 'bitcoin',
+  'symbol': 'btc',
+  'name': 'Bitcoin',
+  'image': 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
+  'current_price': 45238,
+  'market_cap': 859441924088,
+  'market_cap_rank': 1,
+  'fully_diluted_valuation': 949715503157,
+  'total_volume': 27812502144,
+  'high_24h': 47077,
+  'low_24h': 44787,
+  'price_change_24h': -1447.797400405951,
+  'price_change_percentage_24h': -3.10117,
+  'market_cap_change_24h': -25413045157.389893,
+  'market_cap_change_percentage_24h': -2.872,
+  'circulating_supply': 19003881.0,
+  'total_supply': 21000000.0,
+  'max_supply': 21000000.0,
+  'ath': 69045,
+  'ath_change_percentage': -34.49968,
+  'ath_date': '2021-11-10T14:24:11.849Z',
+  'atl': 67.81,
+  'atl_change_percentage': 66594.01963,
+  'atl_date': '2013-07-06T00:00:00.000Z',
+  'roi': None,
+  'last_updated': '2022-04-06T01:43:30.093Z'}]
     elif n_clicks>0:
         data = api_pull()
     return data
 
 @app.callback([Output('movie-title', 'children'),
-                Output('movie-release', 'children'),
-                Output('movie-overview', 'children'),
+                #Output('movie-release', 'children'),
+                #Output('movie-overview', 'children'),
                 ],
               [Input('tmdb-store', 'modified_timestamp')],
               [State('tmdb-store', 'data')])
@@ -107,11 +117,13 @@ def on_data(ts, data):
     else:
         #return data['title'], data['release_date'], data['overview']
         print(data)
-        return data['target'], data['rates']['BTC'], data['rates']['ETH']
+        df= pd.DataFrame.from_records(data)
+        table = dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
+        return table
 
     
 def api_pull():
-    payload = {'access_key':'f994000dc1a1bc422a9d418df5cdb409', 'symbols':'BTC,ETH'}
+    payload = {'vs_currency':'usd','ids':ids}
     response = requests.get(sourceurl, params=payload).json()
     # json_file = json_normalize(response)
     # dictionary = json.load(response)
