@@ -75,33 +75,33 @@ app.layout = html.Div(children=[
 def on_click(n_clicks, data):
     if n_clicks is None:
         raise PreventUpdate
-    elif n_clicks==0:
-        data = [{'id': 'bitcoin',
-  'symbol': 'btc',
-  'name': 'Bitcoin',
-  'image': 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-  'current_price': 45238,
-  'market_cap': 859441924088,
-  'market_cap_rank': 1,
-  'fully_diluted_valuation': 949715503157,
-  'total_volume': 27812502144,
-  'high_24h': 47077,
-  'low_24h': 44787,
-  'price_change_24h': -1447.797400405951,
-  'price_change_percentage_24h': -3.10117,
-  'market_cap_change_24h': -25413045157.389893,
-  'market_cap_change_percentage_24h': -2.872,
-  'circulating_supply': 19003881.0,
-  'total_supply': 21000000.0,
-  'max_supply': 21000000.0,
-  'ath': 69045,
-  'ath_change_percentage': -34.49968,
-  'ath_date': '2021-11-10T14:24:11.849Z',
-  'atl': 67.81,
-  'atl_change_percentage': 66594.01963,
-  'atl_date': '2013-07-06T00:00:00.000Z',
-  'roi': None,
-  'last_updated': '2022-04-06T01:43:30.093Z'}]
+  #   elif n_clicks==0:
+  #       data = [{'id': 'bitcoin',
+  # 'symbol': 'btc',
+  # 'name': 'Bitcoin',
+  # 'image': 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
+  # 'current_price': 45238,
+  # 'market_cap': 859441924088,
+  # 'market_cap_rank': 1,
+  # 'fully_diluted_valuation': 949715503157,
+  # 'total_volume': 27812502144,
+  # 'high_24h': 47077,
+  # 'low_24h': 44787,
+  # 'price_change_24h': -1447.797400405951,
+  # 'price_change_percentage_24h': -3.10117,
+  # 'market_cap_change_24h': -25413045157.389893,
+  # 'market_cap_change_percentage_24h': -2.872,
+  # 'circulating_supply': 19003881.0,
+  # 'total_supply': 21000000.0,
+  # 'max_supply': 21000000.0,
+  # 'ath': 69045,
+  # 'ath_change_percentage': -34.49968,
+  # 'ath_date': '2021-11-10T14:24:11.849Z',
+  # 'atl': 67.81,
+  # 'atl_change_percentage': 66594.01963,
+  # 'atl_date': '2013-07-06T00:00:00.000Z',
+  # 'roi': None,
+  # 'last_updated': '2022-04-06T01:43:30.093Z'}]
     elif n_clicks>0:
         data = api_pull()
     return data
@@ -117,7 +117,7 @@ def on_data(ts, data):
         raise PreventUpdate
     else:
         #return data['title'], data['release_date'], data['overview']
-        print(data)
+        #print(data)
         df= pd.DataFrame.from_records(data)
         table = dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
         return table
