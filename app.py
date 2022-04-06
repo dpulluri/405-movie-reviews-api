@@ -78,7 +78,12 @@ def on_click(n_clicks, data):
     if n_clicks is None:
         raise PreventUpdate
     elif n_clicks==0:
-        data = {'title':' ', 'release_date':' ', 'overview':' '}
+        data = {'success': True,
+ 'terms': 'https://coinlayer.com/terms',
+ 'privacy': 'https://coinlayer.com/privacy',
+ 'timestamp': 1649199786,
+ 'target': 'USD',
+ 'rates': {'BTC': 46086.561278, 'ETH': 3441.073039}}
     elif n_clicks>0:
         data = api_pull()
     return data
