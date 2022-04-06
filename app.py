@@ -15,7 +15,7 @@ sourceurl = 'https://api.coingecko.com/api/v3/coins/markets'
 #sourceurl = 'https://www.kaggle.com/tmdb/tmdb-movie-metadata'
 #sourceurl2 = 'https://developers.themoviedb.org/3/getting-started/introduction'
 githublink = 'https://github.com/dpulluri/405-movie-reviews-api'
-ids='bitcoin'
+ids='bitcoin,ethereum,solana,cardano,tether,ripple,dogecoin,litecoin'
 
 
 ########### Initiate the app
