@@ -118,7 +118,7 @@ def on_data(ts, data):
         #return data['title'], data['release_date'], data['overview']
         #print(data)
         df= pd.DataFrame.from_records(data)
-        df.drop(['roi'], axis=1, inplace=True)
+        df.drop(['roi', 'image', 'fully_diluted_valuation', 'market_cap_change_24h', 'market_cap_change_percentage_24h', 'circulating_supply', 'total_volume'], axis=1, inplace=True)
         table = dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
         return table
 
