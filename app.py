@@ -94,6 +94,7 @@ def on_data(ts, data):
         raise PreventUpdate
     else:
         #return data['title'], data['release_date'], data['overview']
+        print(data)
         return data['target'], data['rates']['BTC'], data['rates']['ETH']
 
     
