@@ -34,9 +34,15 @@ app.layout = html.Div(children=[
             html.Div([
                 html.Div('Randomly select a movie summary'),
                 html.Button(id='eek-button', n_clicks=0, children='API call', style={'color': 'rgb(255, 255, 255)'}),
-                html.Div(id='movie-title', children=[]),
-                html.Div(id='movie-release', children=[]),
-                html.Div(id='movie-overview', children=[]),
+                html.Div([
+                    html.H3(['target price']),
+                    id='movie-title', children=[]]),
+                html.Div([
+                    html.H3(['BTC price']),
+                    id='movie-release', children=[]]),
+                html.Div([
+                    html.H3(['ETH price']),
+                    id='movie-overview', children=[]]),
 
             ], style={ 'padding': '12px',
                     'font-size': '22px',
