@@ -3,6 +3,7 @@ from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import requests
+import pandas as pd
 # from helpers.key_finder import api_key
 # from helpers.api_call import *
 
