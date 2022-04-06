@@ -35,7 +35,7 @@ app.layout = html.Div(children=[
             html.Div([
                 html.Div('Get all crypto coins data'),
                 html.Button(id='eek-button', n_clicks=0, children='API call', style={'color': 'rgb(255, 255, 255)'}),
-                html.Div(id='movie-title'),
+                html.Div(id='movie-title', children=""),
 
             ], style={ 'padding': '12px',
                     'font-size': '22px',
